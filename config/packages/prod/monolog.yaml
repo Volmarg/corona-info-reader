@@ -22,6 +22,6 @@ monolog:
             from_email: '%system.from_mail%'
             to_email:   'email@email.email'
             subject:    'An Error Occurred! %%message%%'
-            level:      debug
+            level:      error
             formatter:  monolog.formatter.html
             content_type: text/html
