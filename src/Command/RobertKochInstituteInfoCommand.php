@@ -103,13 +103,13 @@ class RobertKochInstituteInfoCommand extends Command
     }
 
     /**
-     * @param RobertKochInstitute $lastCreatedEntity
+     * @param ?RobertKochInstitute $lastCreatedEntity
      * @return RobertKochInstitute|null
      * @throws GuzzleException
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function getRobertKochInstituteEntityForPageChanges(RobertKochInstitute $lastCreatedEntity): ?RobertKochInstitute
+    public function getRobertKochInstituteEntityForPageChanges(?RobertKochInstitute $lastCreatedEntity): ?RobertKochInstitute
     {
         $currentArticleFetchedChangeDate           = $this->robertKochInstituteDataFetcher->crawlLastArticleChangeDate();
         $currentArticleChangeDateTimeForComparison = (
@@ -120,7 +120,10 @@ class RobertKochInstituteInfoCommand extends Command
 
         $currentPageContentHash              = $this->robertKochInstituteDataFetcher->calculatePageContentHash();
         $lastCreatedEntityPageUpdateDateTime = (
-                is_null($lastCreatedEntity->getLastPageUpdateDateTime())
+            (
+                    is_null($lastCreatedEntity)
+                ||  is_null($lastCreatedEntity->getLastPageUpdateDateTime())
+            )
             ?   null
             :   $lastCreatedEntity->getLastPageUpdateDateTime()->format("Y-m-d H:i:s")
         );
